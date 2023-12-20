@@ -2,10 +2,42 @@
 {% block title %}{{ product.title }} | {% endblock %}
 
 {% block content %}
-    <h1 class="title">{{ product.title }}</h1>
-    <h2 class="subtitle">€{{ product.price }}</h2>
+<div id="productapp"></div>
+      <h1 class="title">{{ product.title }}</h1>
+      <h2 class="subtitle">€{{ product.price }}</h2>
 
     {% if product.description %}
         <p> {{ product.description }}</p>
     {% endif %}
+
+    <button @click="addToCart({{ product.id}})">Add To Cart</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log('Script');
+</script>
+
+<script>
+    var productapp = new Vue({
+        el: '#productapp',
+        delimeters: ['[[', ']]'],
+        data () {
+            return {
+
+            }
+        },
+        mounted() {
+            console.log('Mounted');
+        },
+        methods:{
+            addToCart(product_id) {
+                console.log('Product_id:', product_id);
+
+            }
+        }
+
+    });
+</script>
 {% endblock %}
