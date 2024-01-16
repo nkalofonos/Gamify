@@ -7,12 +7,31 @@
         <h1 class="title">Cart</h1>
 
         {% if cart %}
-            {% for item in cart %}
-                {% with product=item.product %}
-                    <p>{{ product.title }}</p>
-                    <button @click="removeFromCart({{ product.id }})">Remove from cart</button>
-                {% endwith %}
-            {% endfor %}
+            <div class="table">
+                <table class="table">
+                    <thead>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th></th>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="product in products">
+                            <td>[[ product.title ]]</td>
+                        </tr>
+                        {% for item in cart %}
+                            {% with product=item.product %}
+                                <tr>
+                                    <td>{{ product.title }}</td>
+                                    <td>{{ item.total_price }}</td>
+                                    <td><button @click="removeFromCart({{ product.id }})">Remove from cart</button></td>
+                                </tr>
+                            {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
         {% else %}
             <p>Your cart is empty!</p>
         {% endif %}
@@ -23,14 +42,15 @@
 <script>
     var productapp = new Vue({
         el: '#cartapp',
-        delimeters: ['[[', ']]'],
+        delimiters: ['[[', ']]'],
         data () {
             return {
-
+                products: [{{ productsstring|safe }}]
             }
         },
         mounted() {
             console.log('Mounted');
+            console.log(this.products);
         },
         methods: {
             removeFromCart(product_id) {
@@ -51,6 +71,8 @@
                 })
                 .then((response) => {
                     console.log(response)
+
+                    this.products = this.products.filter(product => product.id !== product_id)
                 })
                 .catch(function (error) {
                     console.log('Error 2');
