@@ -3,4 +3,14 @@
 
 {% block content %}
     <h1 class="title">Cart</h1>
+
+    {% if cart %}
+        {% for item in cart %}
+            {% with product=item.product %}
+                <p>Product</p>
+            {% endwith %}
+        {% endfor %}
+    {% else %}
+        <p>Your cart is empty!!!!!!!8=====D</p>
+    {% endif %}
 {% endblock %}
