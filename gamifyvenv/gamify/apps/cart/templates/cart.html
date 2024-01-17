@@ -11,6 +11,7 @@
                 <table class="table">
                     <thead>
                         <th>Product</th>
+                        <th>Quantity</th>
                         <th>Price</th>
                         <th></th>
                     </thead>
@@ -18,20 +19,13 @@
                     <tbody>
                         <tr v-for="product in products">
                             <td>[[ product.title ]]</td>
+                            <td>[[ product.quantity ]] <button @click="incrementQuantity(product.id, product.quantity)">+</button></td>
+                            <td>[[ product.total_price ]]</td>
+                            <td><button @click="removeFromCart(product.id)">Remove from cart</button></td>
                         </tr>
-                        {% for item in cart %}
-                            {% with product=item.product %}
-                                <tr>
-                                    <td>{{ product.title }}</td>
-                                    <td>{{ item.total_price }}</td>
-                                    <td><button @click="removeFromCart({{ product.id }})">Remove from cart</button></td>
-                                </tr>
-                            {% endwith %}
-                        {% endfor %}
                     </tbody>
                 </table>
             </div>
-            
         {% else %}
             <p>Your cart is empty!</p>
         {% endif %}
@@ -43,14 +37,11 @@
     var productapp = new Vue({
         el: '#cartapp',
         delimiters: ['[[', ']]'],
+        //store: store,
         data () {
             return {
                 products: [{{ productsstring|safe }}]
             }
-        },
-        mounted() {
-            console.log('Mounted');
-            console.log(this.products);
         },
         methods: {
             removeFromCart(product_id) {
@@ -80,6 +71,6 @@
                 })
             }
         }
-    });//
+    });
 </script>
 {% endblock %}
