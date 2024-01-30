@@ -38,12 +38,16 @@ class Cart(object):
         if product_id not in self.cart:
             print('test 1')
             self.cart[product_id] = {'quantity': 0, 'price': price, 'id': product_id}
+        else:
+            print('test 3')
+            self.cart[product_id]['quantity'] = self.cart[product_id]['quantity'] - 1
         
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
             print('test 2')
-            self.cart[product_id]['quantity'] = self.cart[product_id]['quantity']
+            self.cart[product_id]['quantity'] = self.cart[product_id]['quantity'] + 1
+            print(self.cart)
         
         self.save()
     

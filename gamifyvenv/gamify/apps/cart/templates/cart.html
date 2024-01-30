@@ -33,6 +33,16 @@
 
                 </table>
             </div>
+
+            <form v-on:submit.prevent="submitForm()">
+                <div class="field">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary">Check out</button>
+                        </div>
+                    </div>
+                </div>
+
         {% else %}
             <p>Your cart is empty!</p>
         {% endif %}
@@ -51,6 +61,11 @@
             }
         },
         methods: {
+
+            submitForm() {
+                console.log('Submit form');
+            },
+
             removeFromCart(product_id) {
                 console.log('Product_id:', product_id);
 
