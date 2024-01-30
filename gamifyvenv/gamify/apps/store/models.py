@@ -5,16 +5,17 @@ from PIL import Image
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length= 255)
     ordering = models.IntegerField(default=0)
 
     class Meta:
         verbose_name_plural = 'Categories'
         ordering = ('ordering',)
 
+
     def __str__(self):
         return self.title
-
+    
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -23,8 +24,8 @@ class Product(models.Model):
     price = models.FloatField()
     is_featured = models.BooleanField(default=False)
 
-    image = models.ImageField(upload_to='media/uploads/', blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='media/uploads/', blank=True, null=True)
+    image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:

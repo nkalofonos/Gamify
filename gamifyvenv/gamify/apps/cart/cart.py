@@ -22,7 +22,7 @@ class Cart(object):
             self.cart[str(p)]['product'] = Product.objects.get(pk=p)
 
         for item in self.cart.values():
-            item['total_price'] = float(item['price']) * int(item['quantity'])
+            item['total_price'] = float(item['price'])
 
             yield item
     
@@ -43,7 +43,7 @@ class Cart(object):
             self.cart[product_id]['quantity'] = quantity
         else:
             print('test 2')
-            self.cart[product_id]['quantity'] = self.cart[product_id]['quantity'] + 1
+            self.cart[product_id]['quantity'] = self.cart[product_id]['quantity']
         
         self.save()
     
@@ -59,3 +59,8 @@ class Cart(object):
 
     def get_total_length(self):
         return sum(int(item['quantity']) for item in self.cart.values())
+    
+    def get_total_cost(self):
+        return round(sum(float(item['total_price']) for item in self.cart.values()),2)
+    
+    
