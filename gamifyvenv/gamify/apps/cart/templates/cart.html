@@ -10,6 +10,7 @@
             <div class="table">
                 <table class="table">
                     <thead>
+                        <th></th>
                         <th>Product</th>
                         <th>Price</th>
                         <th></th>
@@ -17,7 +18,16 @@
 
                     <tbody>
                         <tr v-for="product in products">
-                            <td>[[ product.title ]]</td>
+                            <td>
+                                <figure class="image is-96x96">
+                                    <img :src="product.thumbnail">
+                                </figure>
+                            </td>
+                            <td>
+                                <a :href="product.url">
+                                    [[ product.title ]]
+                                </a>
+                            </td>
                             <td>[[ product.total_price ]]</td>
                             <td><button @click="removeFromCart(product.id)">Remove from cart</button></td>
                         </tr>

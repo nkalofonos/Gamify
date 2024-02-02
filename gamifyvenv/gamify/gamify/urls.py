@@ -21,11 +21,12 @@ from django.conf.urls.static import static
 
 from apps.cart.views import cart_detail
 from apps.core.views import frontpage, contact, about
-from apps.store.views import product_detail, category_detail
+from apps.store.views import product_detail, category_detail, search
 from apps.store.api import api_add_to_cart, api_remove_from_cart
 
 urlpatterns = [
     path('', frontpage, name='frontpage'),
+    path('search/', search, name='search'),
     path('cart/', cart_detail, name='cart'),
     path('admin/', admin.site.urls),
     path('contact/', contact, name='contact'),
