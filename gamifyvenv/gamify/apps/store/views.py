@@ -5,7 +5,7 @@ from .models import Product, Category
 
 def search(request):
     query = request.GET.get('query')
-    products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+    products = Product.objects.filter(Q(title__icontains=query))
 
     context = {
         'query': query,

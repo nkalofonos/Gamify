@@ -44,6 +44,8 @@
                 </table>
             </div>
 
+            {% if request.user.is_authenticated %}
+
             <form v-on:submit.prevent="submitForm()">
                 <div class="field">
                     <div class="field">
@@ -52,6 +54,16 @@
                         </div>
                     </div>
                 </div>
+            </form>
+            {% else %}
+                <div class="field">
+                    <div class="field">
+                        <div class="control">
+                            <a href="{% url 'login'%}"><button class="button is-primary">Login to check out</button></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}    
 
         {% else %}
             <p>Your cart is empty!</p>
@@ -101,6 +113,9 @@
                     console.log('Error 2');
                     console.log(error);
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1);
             }
         }
     });

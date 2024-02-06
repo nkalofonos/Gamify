@@ -12,7 +12,7 @@
     <body>
 		<nav class="navbar is-dark" id="navbarapp">
 			<div class="navbar-brand">
-				<a href="{% url 'frontpage' %}" class="navbar-item" href="/">Gamify</a>
+				<a href="{% url 'frontpage' %}" class="navbar-item" style="font-weight:bold; font-family:Arial" href="/">Gamify</a>
 
 				<a @click="toggleMenu()" role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
 					<span aria-hidden="true"></span>
@@ -43,6 +43,19 @@
                     <div class="navbar-item">
                         <a href="{% url 'cart' %}" class="button is-primary">Cart</a>
                     </div>
+                    
+                    {% if request.user.is_authenticated %}
+                        <div class="navbar-item">
+                            <a href="{% url 'myaccount' %}" class="button is-light">My account </a>
+                        </div>
+                    {% else %}
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a href="{% url 'signup' %}" class="button is-primary"><strong>Sign Up</strong></a>
+                                <a href="{% url 'login' %}" class="button is-light">Log In</a> 
+                            </div>
+                        </div>
+                    {% endif %}
             </div>
         </nav>
 
