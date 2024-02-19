@@ -13,7 +13,8 @@
             <p>{{ product.description }}</p>
         {% endif %}
 
-        <button @click="addToCart({{ product.id }})">Add to cart</button><br>
+
+        <button class="button is-primary" @click="addToCart({{ product.id }})">Add to cart</button><br>
         <article class="message" v-if="showMessage" style="background-color: #D1FFD4; display: inline-block;">
             <div class="message-body">
                 Game added to Cart!

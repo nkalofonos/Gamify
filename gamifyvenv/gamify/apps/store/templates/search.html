@@ -23,7 +23,9 @@
                         </div>
                     </div>
                     <footer class="card-footer">
-                        <a href="{% url 'product_detail' product.category.slug product.slug %}" class="card-footer-item">View</a>
+                        <button style="width:100%; display:block;" class="button is-primary is-outlined">
+                            <a href="{% url 'product_detail' product.category.slug product.slug %}" style="font-weight:bold; color: black; padding-top:0%;" class="card-footer-item">View</a>
+                        </button>
                     </footer>
                 </div>
             </div>
