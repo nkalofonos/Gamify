@@ -7,8 +7,8 @@
         <h1 class="title">Cart</h1>
 
         {% if cart %}
-            <div class="table">
-                <table class="table">
+            <div class="table is-inline-block is-bordered" style="padding: 5px; border-radius: 5px;">
+                <table class="table" style="padding: 5px; border-radius: 5px;">
                     <thead>
                         <th></th>
                         <th>Product</th>
@@ -24,7 +24,7 @@
                                 </figure>
                             </td>
                             <td>
-                                <a :href="product.url">
+                                <a :href="product.url" style="color: rgb(0, 185, 145);">
                                     [[ product.title ]]
                                 </a>
                             </td>
@@ -36,7 +36,8 @@
                     <tfoot>
                         <tr>
                             <td style="font-weight:bold"> Total cost:</td>
-                            <td>{{ cart.get_total_cost }}</td>
+                            <td style="font-weight:bold">{{ cart.get_total_cost }}</td>
+                            <td></td>
                             <td></td>
                         </tr>
                     </tfoot>

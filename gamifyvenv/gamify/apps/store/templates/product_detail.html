@@ -4,22 +4,29 @@
 
 {% block content %}
     <div id="productapp">
-        <img src="/media/{{ product.image }}" width="700" height="470">
-        <hr>
-        <h1 class="title">{{ product.title }}</h1>
-        <h2 class="subtitle">€{{ product.price }}</h2>
+        <div style="display: flex;">
+            <img src="/media/{{ product.image }}" width="700" height="470">
+            <div style="margin-left: 20px;">
+                <h1 class="title">{{ product.title }}</h1>
+                
+                {% if product.description %}
+                    <p style="background-color: #d1d1d1; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">{{ product.description }}</p>
+                {% endif %}
 
-        {% if product.description %}
-            <p>{{ product.description }}</p>
-        {% endif %}
-
-
-        <button class="button is-primary" @click="addToCart({{ product.id }})">Add to cart</button><br>
-        <article class="message" v-if="showMessage" style="background-color: #D1FFD4; display: inline-block;">
-            <div class="message-body">
-                Game added to Cart!
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                    <button class="button is-primary" @click="addToCart({{ product.id }})">Add to cart</button>
+                    <div style="background-color: #f0f0f0; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">
+                        €{{ product.price }}
+                    </div>
+                </div>
+                <article class="message is-primary is-inline-block" v-if="showMessage" style="margin-top: 10px;">
+                    <div class="message-body">
+                        Game added to Cart!
+                    </div>
+                </article>
             </div>
-        </article>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
