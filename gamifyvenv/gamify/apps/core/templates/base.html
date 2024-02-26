@@ -35,11 +35,26 @@
                             </div>
                         </form>
                     </div>
+                    <div class="navbar-item">
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                            <button class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                <span>Categories</span>
+                            </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                            <div class="dropdown-content">
+                                <div class="dropdown-item">
+                                    {% for category in menu_categories %}
+                                    <a href="{% url 'category_detail' category.slug %}" class="navbar-item">{{ category.title }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="navbar-end">
-                    {% for category in menu_categories %}
-                        <a href="{% url 'category_detail' category.slug %}" class="navbar-item">{{ category.title }}</a>
-                    {% endfor %}
                     <div class="navbar-item">
                         <a href="{% url 'cart' %}" class="button is-primary">Cart</a>
                     </div>

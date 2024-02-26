@@ -44,14 +44,11 @@ def create_checkout_session(request):
         success_url='http://127.0.0.1:8000/cart/success/',
         cancel_url='http://127.0.0.1:8000/cart/'
     )
-    print("Stripe Session:", session)
     # Create order
     
     data = json.loads(request.body)
     username = data['username']
     payment_id = session.id
-    print(session)
-    print('this is the payment ID: ',payment_id)
     orderid = checkout(request, username)
 
     order = Order.objects.get(pk=orderid)
