@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
+STRIPE_API_KEY_PUBLISHABLE='pk_test_51OnpTkFFa51C4FfSE80pszWSiY4cnejom06RNtR8dnCOLTjlKTaU15qDWM3irdYxalWwjcFjuZPpfPah8fD1CfmQ00nKImB8ny'
+STRIPE_API_KEY_HIDDEN='sk_test_51OnpTkFFa51C4FfSaXdUKAA9sQ2qc4xygzX1qKUc963SRmr8ZGgcweGthFHhisNBaA1prO1666lSW1tFgntcq8lB00D7luF6vT'
 import os
 
 from pathlib import Path
@@ -51,6 +54,7 @@ INSTALLED_APPS = [
     
     'apps.cart',
     'apps.core',
+    'apps.order',
     'apps.store',
     'apps.userprofile',
 ]
@@ -79,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.store.context_processors.menu_categories',
+                'apps.cart.context_processors.cart',
             ],
         },
     },
@@ -143,6 +148,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-print(STATIC_URL)
-print(BASE_DIR)

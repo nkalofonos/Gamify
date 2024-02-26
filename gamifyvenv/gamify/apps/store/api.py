@@ -1,11 +1,90 @@
 import json
+import stripe
 
+from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from apps.cart.cart import Cart
 
+
+from apps.order.utils import checkout
+
 from .models import Product
+from apps.order.models import Order
+
+
+def create_checkout_session(request):
+    cart = Cart(request)
+
+    stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
+
+    items = []
+
+    for item in cart:
+        product = item['product']
+
+        obj = {
+            'price_data': {
+                'currency': 'eur',
+                'product_data':{
+                    'name': product.title
+                },
+                'unit_amount': int(product.price * 100)
+            },
+            'quantity': item['quantity']
+        }
+
+        items.append(obj)
+        
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=items,
+        mode='payment',
+        success_url='http://127.0.0.1:8000/cart/success/',
+        cancel_url='http://127.0.0.1:8000/cart/'
+    )
+    print("Stripe Session:", session)
+    # Create order
+    
+    data = json.loads(request.body)
+    username = data['username']
+    payment_intent = session.payment_intent
+    print(session)
+    print('this is the payment intent: ',payment_intent)
+    orderid = checkout(request, username)
+
+    order = Order.objects.get(pk=orderid)
+    order.peyment_intent = payment_intent
+    order.paid_amount = cart.get_total_cost()
+    order.save()
+    #
+
+    return JsonResponse({'session': session})
+
+
+
+def api_checkout(request):
+    cart = Cart(request)
+    data = json.loads(request.body)
+    jsonresponse = {'success': True}
+    username = data['username']
+
+    orderid = checkout(request, username)
+    
+    paid = True
+
+    if paid == True:
+        order = Order.objects.get(pk=orderid)
+        order.paid = True
+        order.paid_amount = cart.get_total_cost()
+        order.save()
+
+        cart.clear()
+
+    return redirect('/') 
+
+
 
 def api_add_to_cart(request):
     data = json.loads(request.body)
