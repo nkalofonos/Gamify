@@ -49,13 +49,13 @@ def create_checkout_session(request):
     
     data = json.loads(request.body)
     username = data['username']
-    payment_intent = session.payment_intent
+    payment_id = session.id
     print(session)
-    print('this is the payment intent: ',payment_intent)
+    print('this is the payment ID: ',payment_id)
     orderid = checkout(request, username)
 
     order = Order.objects.get(pk=orderid)
-    order.peyment_intent = payment_intent
+    order.payment_id = payment_id
     order.paid_amount = cart.get_total_cost()
     order.save()
     #

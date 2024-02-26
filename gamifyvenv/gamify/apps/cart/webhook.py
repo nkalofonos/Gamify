@@ -14,24 +14,26 @@ from apps.order.models import Order
 def webhook(request):
     payload = request.body
     event = None
-    
+    print('BHKE EDOOOOOOOO  ')
     stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
     try:
         event = stripe.Event.construct_from(
             json.loads(payload), stripe.api_key
         )
     except ValueError as e:
-        print('negros2')
         return HttpResponse(status=400)
         
     
     if event.type == 'checkout.session.completed':
         session = event.data.object
-        print(session)
-        '''
-        order = Order.objects.get(payment_intent=payment_intent.id)
+        print("Session toy webhook:: ",session)
+        
+        order = Order.objects.get(payment_id=session.id)
+        order.payment_intent = session.payment_intent
+        order.save()
         order.paid = True
         order.save()
-        '''
+        print('paymentintent wb: ',order.payment_intent)
+        
     return HttpResponse(status=200)
     
