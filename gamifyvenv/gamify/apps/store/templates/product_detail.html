@@ -15,10 +15,13 @@
 
                 <div style="display: flex; align-items: center; margin-top: 10px;">
                     {% if has_game == 0 %}
-                        <button class="button is-primary" @click="addToCart({{ product.id }})">Add to cart</button>
-                        <div style="background-color: #f0f0f0; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">
-                            €{{ product.price }}
-                        </div>
+                            <button class="button is-primary" v-if="is_in_cart" @click="alreadyInCart()">Already in Cart</button>
+
+                            <button class="button is-primary" v-else @click="addToCart({{ product.id }})">Add to cart</button>
+
+                            <div style="background-color: #f0f0f0; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">
+                                €{{ product.price }}
+                            </div>
                     {% else %}
                         <button class="button is-primary" >
                             <a href="{% url 'library' %}" style="color: white;">Go to library</a>
@@ -31,6 +34,15 @@
                 <article class="message is-primary is-inline-block" v-if="showMessage" style="margin-top: 10px;">
                     <div class="message-body">
                         Game added to Cart!
+                    </div>
+                </article>
+                <article class="message is-warning is-inline-block" v-if="alreadyMessage">
+                    <div class="message-header">
+                      <p>Warning</p>
+                      <button class="delete" @click="alreadyMessage = !alreadyMessage" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                      This item is already in your Cart
                     </div>
                 </article>
             </div>
@@ -46,11 +58,17 @@
         //store: store,
         data () {
             return {
-                showMessage: false
+                showMessage: false,
+                is_in_cart: false,
+                alreadyMessage:false
             }
         },
         mounted() {
-            console.log('Mounted');
+            if ({{ in_cart }} == 0){
+                this.is_in_cart = false
+            } else {
+                this.is_in_cart = true
+            }
         },
         methods: {
             addToCart(product_id) {
@@ -75,13 +93,15 @@
                     console.log(response)
 
                     this.showMessage = true;
-
-                    store.commit('increment', 1);
+                    this.is_in_cart = true;
+                    //store.commit('increment', 1);
                 })
                 .catch(function (error) {
-                    console.log('Error 2');
                     console.log(error);
                 })
+            },
+            alreadyInCart(){
+                this.alreadyMessage = true;
             }
         }
     });
