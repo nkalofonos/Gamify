@@ -2,13 +2,22 @@
 
 {% block content %}
 {% if request.user.is_authenticated %}
-    <h1>Your Library</h1>
-        <ul>
+<div style="width: 15%; word-wrap: break-word;">
+    <aside class="menu">
+        <p class="menu-label">
+            YOUR LIBRARY
+        </p>
+        <ul class="menu-list library">
             {% for item in library_items %}
-                <li>{{ item.game.title }}</li>
+            <li><a>{{ item.game.title }}</a></li>
             {% endfor %}
         </ul>
+        
+    </aside>
+   
+</div>
+
 {% else %}
-    <h1>NIGGA</h1>
+    <h1>You need to Log In to see your library!</h1>
 {% endif %}
 {% endblock %}

@@ -2,7 +2,33 @@
 {% block title %}Contact | {% endblock %}
 
 {% block content %}
-    <h1 class="title">Contact</h1>
+    <div id="contact">
+        <h1 class="title">Contact</h1>
+        <transition name="fade">
+            <p v-if="showP">CONTACT STUFF</p>
+        </transition>
+        <BR><BR>
+        <button @click="showP = !showP" >TOGGLE</button>
+        <BR><BR>
+        Contact
+    </div>
+{% endblock %}
 
-    Contact
+
+
+{% block scripts %}
+
+<script>
+    var contact = new Vue({
+        el: '#contact',
+        delimiters: ['[[', ']]'],
+        //store: store,
+        data () {
+            return {
+                showP: false
+            }
+        },
+    });
+</script>
+
 {% endblock %}

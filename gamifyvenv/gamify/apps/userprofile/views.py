@@ -28,6 +28,8 @@ def myaccount(request):
 def library(request):
     if request.user.is_authenticated:
         library_items = LibraryItem.objects.filter(username=request.user)
+        for item in library_items: 
+            print(item.game.description)
         return render(request, 'library.html', {'library_items': library_items})
     
     return render(request, 'library.html')

@@ -27,7 +27,6 @@ def product_detail(request, category_slug, slug):
         product1 = item['product']
         if (product == product1):
             in_cart = 1
-            print("YPARXEI STO KALATHI")
 
     if (LibraryItem.objects.filter(username = request.user, game = product)):
         has_game = 1

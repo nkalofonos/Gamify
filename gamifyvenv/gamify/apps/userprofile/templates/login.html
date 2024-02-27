@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="app">
 <div class="columns">
     <div class="column is-6 is-offset-3">
         <h1 class="title">Log in</h1>
@@ -22,7 +23,8 @@
                 <label>Password</label>
                 
                 <div clas="control">
-                    <input type="password" class="input" name="password" id="id_password">
+                    <input v-bind:type="passwordFieldType" class="input" name="password" v-model="password" id="id_password">
+                    <button type="button" @click="togglePassword">Show Password</button>
                 </div>
             </div>
     
@@ -40,4 +42,27 @@
         </form>
     </div>
 </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            password: '',
+            showPassword: false,
+        },
+        computed: {
+            passwordFieldType() {
+                return this.showPassword ? 'text' : 'password';
+            },
+        },
+        methods: {
+            togglePassword() {
+                this.showPassword = !this.showPassword;
+            },
+        },
+    });
+</script>
 {% endblock %}

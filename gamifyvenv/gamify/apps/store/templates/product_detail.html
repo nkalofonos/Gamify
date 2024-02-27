@@ -31,20 +31,24 @@
                         </div>
                     {% endif %}
                 </div>
-                <article class="message is-primary is-inline-block" v-if="showMessage" style="margin-top: 10px;">
-                    <div class="message-body">
-                        Game added to Cart!
-                    </div>
-                </article>
-                <article class="message is-warning is-inline-block" v-if="alreadyMessage">
-                    <div class="message-header">
-                      <p>Warning</p>
-                      <button class="delete" @click="alreadyMessage = !alreadyMessage" aria-label="delete"></button>
-                    </div>
-                    <div class="message-body">
-                      This item is already in your Cart
-                    </div>
-                </article>
+                <transition name="fade">
+                    <article class="message is-primary is-inline-block" v-if="showMessage" style="margin-top: 10px;">
+                        <div class="message-body">
+                            Game added to Cart!
+                        </div>
+                    </article>
+                </transition>
+                <transition name="fade">
+                    <article class="message is-warning is-inline-block" v-if="alreadyMessage">
+                        <div class="message-header">
+                        <p>Warning</p>
+                        <button class="delete" @click="alreadyMessage = !alreadyMessage" aria-label="delete"></button>
+                        </div>
+                        <div class="message-body">
+                        This item is already in your Cart
+                        </div>
+                    </article>
+                </transition>
             </div>
         </div>
     </div>
@@ -102,6 +106,7 @@
             },
             alreadyInCart(){
                 this.alreadyMessage = true;
+                this.showMessage = false;
             }
         }
     });
