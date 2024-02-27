@@ -46,7 +46,7 @@
                             <div class="dropdown-content">
                                 <div class="dropdown-item">
                                     {% for category in menu_categories %}
-                                    <a href="{% url 'category_detail' category.slug %}" class="navbar-item">{{ category.title }}</a>
+                                    <a href="{% url 'category_detail' category.slug %}" class="navbar-item" style="color: rgb(0, 185, 145);">{{ category.title }}</a>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -61,7 +61,10 @@
                     
                     {% if request.user.is_authenticated %}
                         <div class="navbar-item">
-                            <a href="{% url 'myaccount' %}" class="button is-light">My account </a>
+                            <div class="buttons">
+                                <a href="{% url 'library' %}" class="button is-light">Library</a>
+                                <a href="{% url 'myaccount' %}" class="button is-light">My account</a>
+                            </div>
                         </div>
                     {% else %}
                         <div class="navbar-item">

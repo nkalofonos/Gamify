@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+    <h1>Your Library</h1>
+        <ul>
+            {% for item in library_items %}
+                <li>{{ item.game.title }}</li>
+            {% endfor %}
+        </ul>
+{% else %}
+    <h1>NIGGA</h1>
+{% endif %}
+{% endblock %}

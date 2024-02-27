@@ -14,10 +14,19 @@
                 {% endif %}
 
                 <div style="display: flex; align-items: center; margin-top: 10px;">
-                    <button class="button is-primary" @click="addToCart({{ product.id }})">Add to cart</button>
-                    <div style="background-color: #f0f0f0; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">
-                        €{{ product.price }}
-                    </div>
+                    {% if has_game == 0 %}
+                        <button class="button is-primary" @click="addToCart({{ product.id }})">Add to cart</button>
+                        <div style="background-color: #f0f0f0; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">
+                            €{{ product.price }}
+                        </div>
+                    {% else %}
+                        <button class="button is-primary" >
+                            <a href="{% url 'library' %}" style="color: white;">Go to library</a>
+                        </button>
+                        <div style="background-color: #f0f0f0; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">
+                            You already own this game!
+                        </div>
+                    {% endif %}
                 </div>
                 <article class="message is-primary is-inline-block" v-if="showMessage" style="margin-top: 10px;">
                     <div class="message-body">

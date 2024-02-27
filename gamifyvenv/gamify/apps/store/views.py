@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 
 from .models import Product, Category
+from apps.order.models import LibraryItem
 
 def search(request):
     query = request.GET.get('query')
@@ -16,9 +17,14 @@ def search(request):
 
 def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug)
+    has_game = 0
+
+    if (LibraryItem.objects.filter(username = request.user, game = product)):
+        has_game = 1
 
     context = {
-        'product': product
+        'product': product,
+        'has_game': has_game
     }
 
     return render(request, 'product_detail.html', context)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from apps.order.models import LibraryItem
 
 from .forms import SignUpForm
 
@@ -23,3 +24,10 @@ def signup(request):
 @login_required
 def myaccount(request):
     return render(request, 'myaccount.html')
+
+def library(request):
+    if request.user.is_authenticated:
+        library_items = LibraryItem.objects.filter(username=request.user)
+        return render(request, 'library.html', {'library_items': library_items})
+    
+    return render(request, 'library.html')

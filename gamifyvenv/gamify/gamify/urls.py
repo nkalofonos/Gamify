@@ -25,7 +25,7 @@ from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage, contact, about
 from apps.store.views import product_detail, category_detail, search
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout, create_checkout_session
-from apps.userprofile.views import signup, myaccount
+from apps.userprofile.views import signup, myaccount, library
 
 urlpatterns = [
     path('', frontpage, name='frontpage'),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('about/', about, name='about'),
 
     #Authentication
+    path('library/', library, name='library'),
     path('myaccount/', myaccount, name='myaccount'),
     path('signup/', signup, name='signup'),
     path('login/', views.LoginView.as_view(template_name='login.html'), name='login'),
