@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from apps.order.models import LibraryItem
+from apps.store.models import Product
 
 from .forms import SignUpForm
 
@@ -25,11 +26,37 @@ def signup(request):
 def myaccount(request):
     return render(request, 'myaccount.html')
 
-def library(request):
+def library(request, game_title=None):
     if request.user.is_authenticated:
+        game_title = request.session.get('game_title')
+        print(game_title)
+        if 'game_title' in request.session:
+            del request.session['game_title']
+        flag = 0
+        if (game_title) is not None:
+            flag = 1
+            game_load = Product.objects.filter(title=game_title)
+            for game in game_load:
+                title = game.title
+                category = game.category
+                image = game.image
+                description = game.description
         library_items = LibraryItem.objects.filter(username=request.user)
-        for item in library_items: 
-            print(item.game.description)
-        return render(request, 'library.html', {'library_items': library_items})
+
+        if(flag ==1):
+            context = { 
+                'library_items': library_items,
+                'category': category,
+                'image': image,
+                'description': description,
+                'title': title,
+            }
+        else:
+            context = { 
+                'library_items': library_items,
+            }
+        return render(request, 'library.html', context)
     
     return render(request, 'library.html')
+
+

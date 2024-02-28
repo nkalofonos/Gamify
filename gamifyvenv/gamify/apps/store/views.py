@@ -5,6 +5,7 @@ from django.db.models import Q
 from .models import Product, Category
 from apps.order.models import LibraryItem
 from apps.cart.cart import Cart
+from apps.userprofile.views import library
 
 
 def search(request):

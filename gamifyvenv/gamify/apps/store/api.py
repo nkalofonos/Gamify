@@ -12,6 +12,7 @@ from apps.order.utils import checkout
 
 from .models import Product
 from apps.order.models import Order
+from apps.userprofile.views import library
 
 
 def create_checkout_session(request):
@@ -108,5 +109,15 @@ def api_remove_from_cart(request):
 
     cart = Cart(request)
     cart.remove(product_id)
+
+    return JsonResponse(jsonresponse)
+
+
+def api_library_load(request):
+    data = json.loads(request.body)
+    jsonresponse = {'success': True}
+    game_title = data['game_title']
+    
+    request.session['game_title'] = game_title
 
     return JsonResponse(jsonresponse)
