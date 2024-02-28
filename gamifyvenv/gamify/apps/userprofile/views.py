@@ -50,10 +50,12 @@ def library(request, game_title=None):
                 'image': image,
                 'description': description,
                 'title': title,
+                'flag': flag,
             }
         else:
             context = { 
                 'library_items': library_items,
+                'flag': flag,
             }
         return render(request, 'library.html', context)
     

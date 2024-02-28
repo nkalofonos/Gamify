@@ -17,12 +17,14 @@
                 
             </aside>
         </div>
-        <div class="column is-four-fifths">
-            <p>{{ title }}</p><br>
-            {{ category }}<br>
-            {{ description }}<br>
-            {{ image }}
-        </div>
+        {% if flag == 1 %}
+            <div class="column is-four-fifths">
+                <p>{{ title }}</p><br>
+                {{ category }}<br>
+                {{ description }}<br>
+                <img src="/media/{{ image }}">
+            </div>
+        {% endif %}
     </div>
 
 </div>
