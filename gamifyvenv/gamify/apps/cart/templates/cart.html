@@ -46,24 +46,30 @@
             </div>
 
             {% if request.user.is_authenticated %}
-
-            <form v-on:submit.prevent="submitForm()">
-                <div class="field">
-                    <div class="field">
-                        <div class="control">
-                            <button @click="buy()" class="button is-primary">Check out</button>
-                        </div>
+                {% if flag == 1 %}
+                    <div class="notification is-danger">
+                        Please remove the games you already own from the cart!
                     </div>
-                </div>
-            </form>
+                {% else %}
+                    <form v-on:submit.prevent="buy()">
+                        <div class="field">
+                            <div class="field">
+                                <div class="control">
+                                    <button @click="changeBut(); buy();" class="button is-primary" v-if="!checkoutpressed">Check out</button>
+                                    <button class="button is-primary is-loading" disabled v-else>Check out</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %} 
             {% else %}
-                <div class="field">
                     <div class="field">
-                        <div class="control">
-                            <a href="{% url 'login'%}"><button class="button is-primary">Login to check out</button></a>
+                        <div class="field">
+                            <div class="control">
+                                <a href="{% url 'login'%}"><button class="button is-primary">Login to check out</button></a>
+                            </div>
                         </div>
                     </div>
-                </div>
             {% endif %}    
 
         {% else %}
@@ -82,11 +88,20 @@
         //store: store,
         data () {
             return {
+                checkoutpressed: false,
                 errors: [],
                 products: [{{ productsstring|safe }}]
             }
         },
+        beforeMount() {
+            this.checkoutpressed = false
+        },
         methods: {
+            changeBut(){
+                console.log(this.checkoutpressed)
+                this.checkoutpressed = true
+                console.log(this.checkoutpressed)
+            },
             
             buy() {
                 var data = {
@@ -108,6 +123,7 @@
                 })
                 .then(function(response){
                     return response.json()
+                    checkoutpressed = true
                 })
                 .then(function(session){
                     return stripe.redirectToCheckout({ sessionId: session.session.id})
@@ -120,31 +136,6 @@
                 .catch(function(error){
                     console.log('Error: ', error)
                 });
-            },
-
-            submitForm() {
-                console.log('Submit form');
-
-
-                console.log(data);
-                fetch('/api/checkout/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    credentials: 'same-origin',
-                    body: JSON.stringify(data)
-                })
-                .then((response) => {
-                    console.log("Success")
-                    console.log(response)
-                    window.location.href='/';
-                })
-                .catch(function (error) {
-                    console.log('Error 2');
-                    console.log(error);
-                })
             },
 
             removeFromCart(product_id) {

@@ -9,7 +9,7 @@
                 <p class="menu-label">
                     YOUR LIBRARY
                 </p>
-                <ul class="menu-list library">
+                <ul class="menu-list library librarylist">
                     {% for item in library_items %}
                     <li><a @click="goToGame('{{ item.game.title }}')">{{ item.game.title }}</a></li>
                     {% endfor %}
@@ -19,10 +19,11 @@
         </div>
         {% if flag == 1 %}
             <div class="column is-four-fifths">
+                <img src="/media/{{ image }}" width="700" height="470"><br>
                 <p>{{ title }}</p><br>
                 {{ category }}<br>
                 {{ description }}<br>
-                <img src="/media/{{ image }}">
+                
             </div>
         {% endif %}
     </div>
