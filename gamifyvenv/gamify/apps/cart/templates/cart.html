@@ -94,8 +94,9 @@
             }
         },
         beforeMount() {
-            this.checkoutpressed = false
+            this.checkoutpressed = false;
         },
+
         methods: {
             changeBut(){
                 console.log(this.checkoutpressed)
@@ -169,5 +170,10 @@
             }
         }
     });
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            productapp.checkoutpressed = false;
+        }
+    };
 </script>
 {% endblock %}
