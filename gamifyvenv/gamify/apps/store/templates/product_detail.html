@@ -9,7 +9,7 @@
             <div style="margin-left: 20px;">
                 <h1 class="title">{{ product.title }}</h1>
                 {% if product.reviews.all|length > 0 %}
-                    <h3 class="subtitle">Rating: {{ product.get_rating }} stars.</h3>
+                    <h3 class="subtitle">Rating: {{ product.get_rating|floatformat:1}} stars.</h3>
                 {% else %}
                 <h3 class="subtitle">Rating: Not reviewed yet.</h3>
                 {% endif %}
@@ -75,7 +75,8 @@
 
                         <div class="control">
                             <div class="select">
-                                <select name="stars">
+                                <select name="stars" required>
+                                    <option value="" selected>-</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
