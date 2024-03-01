@@ -33,3 +33,10 @@ form ul {
   overflow: auto;
 }
 
+.selected_game_library {
+  background-color: greenyellow;
+}
+
+.space-under {
+  margin-bottom: 15px;
+}

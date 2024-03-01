@@ -11,7 +11,11 @@
                 </p>
                 <ul class="menu-list library librarylist">
                     {% for item in library_items %}
-                    <li><a @click="goToGame('{{ item.game.title }}')">{{ item.game.title }}</a></li>
+                        {% if item.game.title == title %}
+                            <li class="selected_game_library"><a @click="goToGame('{{ item.game.title }}')">{{ item.game.title }}</a></li>
+                        {% else %}
+                            <li><a @click="goToGame('{{ item.game.title }}')">{{ item.game.title }}</a></li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 

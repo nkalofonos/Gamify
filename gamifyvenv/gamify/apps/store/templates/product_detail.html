@@ -8,7 +8,11 @@
             <img src="/media/{{ product.image }}" width="700" height="470">
             <div style="margin-left: 20px;">
                 <h1 class="title">{{ product.title }}</h1>
-                
+                {% if product.reviews.all|length > 0 %}
+                    <h3 class="subtitle">Rating: {{ product.get_rating }} stars.</h3>
+                {% else %}
+                <h3 class="subtitle">Rating: Not reviewed yet.</h3>
+                {% endif %}
                 {% if product.description %}
                     <p style="background-color: #d1d1d1; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">{{ product.description }}</p>
                 {% endif %}
@@ -51,6 +55,81 @@
                 </transition>
             </div>
         </div>
+
+        <hr>
+
+
+        {% if request.user.is_authenticated %}
+            {% if has_game == 0 %}
+            <div class="notification space-under">
+                <p>You have to purchase the game to write a review!</p>
+            </div>
+            {% else %}
+            <h2 class="subtitle"><strong>Write a review</strong></h2>
+            <div class="notification space-under">
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    
+                    <div class="field">
+                        <label>Stars</label>
+
+                        <div class="control">
+                            <div class="select">
+                                <select name="stars">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Write a review</label>
+                        <div class="control">
+                            <textarea class="textarea" name="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-success">Sumbit Review</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        {% else %}
+        <div class="notification space-under">
+            <p>Please log-in to write a review!</p>
+        </div>
+        {% endif %}      
+        
+        <hr>
+        <h2 class="subtitle">Reviews</h2>
+
+        <div class="reviews-wrapper">
+            {% for review in product.reviews.all %}
+                <div class="notification space-under">
+                    <p>
+                        <strong>User: </strong>{{ review.user }},
+                        <strong>Date: </strong>{{ review.date_added|date:"Y-m-d" }},
+                        <strong>Stars: </strong>{{ review.stars }}
+                    </p>
+
+                    {{ review.content }}
+                </div>
+            {% empty %}
+                <div class="notification space-under">
+                    No reviews for this game yet.
+                </div>
+            {% endfor %}
+        </div>
+        
+        
+        
+
     </div>
 {% endblock %}
 
@@ -82,7 +161,7 @@
                     'product_id': product_id, 
                     'update': false,
                     'quantity': 1
-                };
+                };  
                     
                 fetch('/api/api_add_to_cart/', {
                     method: 'POST',
