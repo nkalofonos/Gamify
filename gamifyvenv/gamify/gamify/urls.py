@@ -24,7 +24,7 @@ from apps.cart.webhook import webhook
 from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage, contact, about
 from apps.store.views import product_detail, category_detail, search
-from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout, create_checkout_session, api_library_load
+from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout, create_checkout_session, api_library_load, api_install_or_uninstall
 from apps.userprofile.views import signup, myaccount, library
 
 urlpatterns = [
@@ -50,6 +50,7 @@ urlpatterns = [
     path('api/remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
     path('api/checkout/', api_checkout, name='api_checkout'),
     path('api/api_library_load/', api_library_load, name='api_library_load'),
+    path('api/api_install_or_uninstall/', api_install_or_uninstall, name='api_install_or_uninstall'),
 
     #Store
     path('<slug:category_slug>/<slug:slug>/', product_detail, name='product_detail'),

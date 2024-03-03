@@ -11,7 +11,7 @@ from apps.cart.cart import Cart
 from apps.order.utils import checkout
 
 from .models import Product
-from apps.order.models import Order
+from apps.order.models import Order, LibraryItem
 from apps.userprofile.views import library
 
 
@@ -119,5 +119,26 @@ def api_library_load(request):
     game_title = data['game_title']
     
     request.session['game_title'] = game_title
+
+    return JsonResponse(jsonresponse)
+
+def api_install_or_uninstall(request):
+    data = json.loads(request.body)
+    jsonresponse = {'success': True}
+
+    game_title = data['game_title']
+
+    try:
+        library_item = LibraryItem.objects.filter(username=request.user, game__title=game_title)
+    except LibraryItem.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'LibraryItem not found'})
+
+    for item in library_item:
+        if (item.installed):
+            item.installed = False
+            item.save()
+        else:
+            item.installed = True
+            item.save()
 
     return JsonResponse(jsonresponse)

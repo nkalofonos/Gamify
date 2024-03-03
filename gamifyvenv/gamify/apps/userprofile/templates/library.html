@@ -22,12 +22,32 @@
             </aside>
         </div>
         {% if flag == 1 %}
-            <div class="column is-four-fifths">
-                <img src="/media/{{ image }}" width="700" height="470"><br>
-                <p>{{ title }}</p><br>
-                {{ category }}<br>
-                {{ description }}<br>
-                
+            <div style="display: flex;">
+                <img src="/media/{{ image }}" width="700" height="470">
+                <div style="margin-left: 20px;">
+                    <h1 class="title">{{ title }}</h1>
+                    <h2 class="subtitle">{{ category }}</h2>
+                    {% if description %}
+                        <p style="background-color: #d1d1d1; color: black; padding: 5px; border-radius: 5px;">{{ description }}</p>
+                    {% endif %}
+                    {% if installed %}
+                        <div v-if="is_installed">
+                            <button class="button is-success" style="margin-top: 10px; font-size: 120%; padding: 10px 20px;">Play</button>
+                            <button class="button is-failure" style="margin-top: 10px; font-size: 120%; padding: 10px 20px;" @click="installOrUninstall('{{ title }}')">Uninstall</button>
+                        </div>
+                        <div v-else>
+                            <button class="button is-primary" style="margin-top: 10px; font-size: 120%; padding: 10px 20px;" @click="installOrUninstall('{{ title }}')">Install</button>
+                        </div>
+                    {% else %}
+                        <div v-if="!is_installed">
+                            <button class="button is-primary" style="margin-top: 10px; font-size: 120%; padding: 10px 20px;" @click="installOrUninstall('{{ title }}')">Install</button>
+                        </div>
+                        <div v-else>
+                            <button class="button is-success" style="margin-top: 10px; font-size: 120%; padding: 10px 20px;">Play</button>
+                            <button class="button is-failure" style="margin-top: 10px; font-size: 120%; padding: 10px 20px;" @click="installOrUninstall('{{ title }}')">Uninstall</button>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
     </div>
@@ -46,11 +66,18 @@
         delimiters: ['[[', ']]'],
         data () {
             return {
-                game_title: ''
+                game_title: '',
+                is_installed: false
             }
         },
         mounted() {
-
+            if ('{{ installed }}' == 'False'){
+                this.is_installed = false
+            }
+            else{
+                this.is_installed = true
+            }
+            console.log(this.is_installed)
         },
         methods: {
             goToGame(game_title){
@@ -76,8 +103,30 @@
                 .catch(function (error) {
                     console.log(error);
                 })
-            }
+            },
+            installOrUninstall(game_title){
+                this.game_title = game_title;
+                var data ={
+                    'game_title': game_title,
+                }
+                fetch('/api/api_install_or_uninstall/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                    console.log(response);
 
+                    this.is_installed = !this.is_installed
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+            }
         }
     });
 </script>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from apps.order.models import LibraryItem
@@ -41,7 +41,16 @@ def library(request, game_title=None):
                 category = game.category
                 image = game.image
                 description = game.description
-        library_items = LibraryItem.objects.filter(username=request.user)
+
+        library_items = LibraryItem.objects.filter(username=request.user).order_by('game__title')
+
+
+        installed = False
+
+        lib_item = LibraryItem.objects.filter(username=request.user, game__title=game_title)
+        for item in lib_item:
+            installed = item.installed
+
 
         if(flag ==1):
             context = { 
@@ -51,11 +60,13 @@ def library(request, game_title=None):
                 'description': description,
                 'title': title,
                 'flag': flag,
+                'installed': installed
             }
         else:
             context = { 
                 'library_items': library_items,
                 'flag': flag,
+                'installed': installed
             }
         return render(request, 'library.html', context)
     

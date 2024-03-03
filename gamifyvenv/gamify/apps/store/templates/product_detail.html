@@ -11,7 +11,7 @@
                 {% if product.reviews.all|length > 0 %}
                     <h3 class="subtitle">Rating: {{ product.get_rating|floatformat:1}} stars.</h3>
                 {% else %}
-                <h3 class="subtitle">Rating: Not reviewed yet.</h3>
+                    <h3 class="subtitle">Rating: Not reviewed yet.</h3>
                 {% endif %}
                 {% if product.description %}
                     <p style="background-color: #d1d1d1; color: black; padding: 5px; border-radius: 5px; margin-left: 5px;">{{ product.description }}</p>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <button class="button is-success">Sumbit Review</button>
+                            <button class="button is-primary">Sumbit Review</button>
                         </div>
                     </div>
                 </form>
