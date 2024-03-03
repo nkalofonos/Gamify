@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<div id="myaccount">
     <h1 class="title">My Account</h1>
 
     <form method="post" action="{% url 'logout' %}">
@@ -9,11 +9,44 @@
         <button type="submit" class="button is-danger">Log out</button>
     </form>
     <hr>
-
+    
     <h2 class="subtitle">Account information</h2>
-    <p><strong>Name:</strong> {{ request.user.get_full_name }}</p>
-    <p><strong>Email:</strong> {{ request.user.email }}</p>
-    <p><strong>UserName:</strong> {{ request.user.username }}</p>
-
+    <div class="info_container column is-one-quarter">
+        <p><strong>Name:</strong> {{ request.user.get_full_name }}</p>
+        <p><strong>Email:</strong> {{ request.user.email }}</p>
+        <p><strong>UserName:</strong> {{ request.user.username }}</p>  
+    </div>
     <hr>
+    <button class="button is-primary" @click="toggleP = !toggleP" style="margin-left:5px" v-if="!toggleP">Change Password</button>
+    <button class="button is-danger" @click="toggleP = !toggleP" style="margin-left:5px" v-else>Cancel</button>
+    <br>
+    <br v-if="toggleP">
+    <div class="info_container column is-one-quarter" v-if="toggleP">
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Save changes</button>
+            </form>
+        </div>
+    </div>    
+    <hr>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    var myaccount = new Vue({
+        el: '#myaccount',
+        delimiters: ['[[', ']]'],
+        data () {
+            return {
+                toggleP: false
+            }
+        },
+    });
+</script>
+
+
 {% endblock %}
