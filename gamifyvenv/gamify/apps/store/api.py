@@ -80,7 +80,7 @@ def api_checkout(request):
 
         cart.clear()
 
-    return redirect('/') 
+    return redirect('/')
 
 
 
