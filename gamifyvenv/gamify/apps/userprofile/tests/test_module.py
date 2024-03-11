@@ -23,7 +23,6 @@ class SignupIntegrationTest(TestCase):
         response = client.post(url, data=self.test_user_data, follow=True)
 
         self.assertRedirects(response, reverse('frontpage'))
-
         self.assertTrue(User.objects.filter(username=self.test_user_data['username']).exists())
 
 
@@ -32,7 +31,7 @@ class SignupIntegrationTest(TestCase):
             'username': '',
             'first_name': 'Test',
             'last_name': 'User',
-            'email': 'incalid-email', 
+            'email': 'invalid-email', 
             'password1': 'testpassword123',
             'password2': 'testpassword456',
         }
